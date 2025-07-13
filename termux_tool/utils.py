@@ -1,40 +1,59 @@
 import phonenumbers
+from phonenumbers import carrier, geocoder, timezone
 import requests
-from bs4 import BeautifulSoup
-from user_agents import parse
+from urllib.parse import quote_plus
 
 def lookup_number(number):
-    info = {}
-
     try:
         parsed = phonenumbers.parse(number)
-        info["Valid"] = phonenumbers.is_valid_number(parsed)
-        info["International Format"] = phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.INTERNATIONAL)
-        info["Local Format"] = phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.NATIONAL)
-        info["Country"] = phonenumbers.region_code_for_number(parsed)
-        info["Carrier"] = phonenumbers.carrier.name_for_number(parsed, "en")
-        info["Time Zone"] = ", ".join(phonenumbers.timezone.time_zones_for_number(parsed))
-    except:
-        info["Error"] = "Invalid phone number format"
+        valid = phonenumbers.is_valid_number(parsed)
 
-    try:
-        q = requests.get(f"https://www.google.com/search?q={number}", headers={"User-Agent": "Mozilla/5.0"})
-        soup = BeautifulSoup(q.text, "html.parser")
-        search_snippets = [i.text for i in soup.select("div.BNeawe.vvjwJb.AP7Wnd")][:3]
-        info["Google Snippets"] = search_snippets if search_snippets else "No public results"
-    except:
-        info["Google Snippets"] = "Lookup failed"
+        if not valid:
+            return "<b>❌ Invalid phone number.</b>"
 
-    return info
+        # Number details
+        country = geocoder.description_for_number(parsed, 'en')
+        timezones = timezone.time_zones_for_number(parsed)
+        sim_carrier = carrier.name_for_number(parsed, 'en')
+        number_type = phonenumbers.number_type(parsed)
 
-def get_device_info(user_agent_string):
-    ua = parse(user_agent_string)
+        if number_type == 1:
+            line_type = "Mobile"
+        elif number_type == 2:
+            line_type = "Landline"
+        elif number_type == 7:
+            line_type = "VoIP"
+        else:
+            line_type = "Unknown"
+
+        # Google search preview
+        search_url = f"https://www.google.com/search?q={quote_plus(number)}"
+
+        result = f"""
+        <h3>📞 Phone Number Info:</h3>
+        <ul>
+            <li><b>Number:</b> {number}</li>
+            <li><b>Valid:</b> ✅</li>
+            <li><b>Country/Region:</b> {country}</li>
+            <li><b>Timezone(s):</b> {', '.join(timezones)}</li>
+            <li><b>Carrier:</b> {sim_carrier}</li>
+            <li><b>Line Type:</b> {line_type}</li>
+        </ul>
+
+        <h4>🔎 Google Search:</h4>
+        <a href="{search_url}" target="_blank">Search this number on Google</a>
+        """
+
+        return result
+
+    except Exception as e:
+        return f"<b>⚠️ Error:</b> {str(e)}"
+
+def get_device_info(user_agent):
+    # For now: just return basic info (extended info comes in Phase 2)
     return {
-        "Browser": ua.browser.family + " " + str(ua.browser.version_string),
-        "OS": ua.os.family + " " + str(ua.os.version_string),
-        "Device": ua.device.family,
-        "Is Mobile": ua.is_mobile,
-        "Is PC": ua.is_pc,
-        "Is Tablet": ua.is_tablet,
-        "User-Agent": user_agent_string
+        "user_agent": user_agent,
+        "is_mobile": "Mobile" in user_agent,
+        "is_tablet": "Tablet" in user_agent,
+        "is_pc": "Windows" in user_agent or "Linux" in user_agent,
     }
