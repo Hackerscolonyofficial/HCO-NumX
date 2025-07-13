@@ -1,4 +1,3 @@
-```python
 from flask import Flask, render_template, request
 import os, threading
 import subprocess
@@ -32,4 +31,3 @@ def start_cloudflared():
 if __name__ == '__main__':
     threading.Thread(target=start_cloudflared).start()
     app.run(host='0.0.0.0', port=5000)
-```
