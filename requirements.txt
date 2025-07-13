@@ -1,4 +1,3 @@
-```txt
 flask
 requests
 phonenumbers
@@ -8,4 +7,3 @@ bs4
 email-validator
 python-dotenv
 cloudflared
-```
