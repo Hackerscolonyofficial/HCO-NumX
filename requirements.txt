@@ -1,0 +1,11 @@
+```txt
+flask
+requests
+phonenumbers
+user-agents
+cloudscraper
+bs4
+email-validator
+python-dotenv
+cloudflared
+```
