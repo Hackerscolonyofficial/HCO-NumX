@@ -3,56 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <title>Connecting...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       background-color: black;
-      color: #00ff00;
+      color: lime;
       font-family: monospace;
       text-align: center;
-      padding-top: 100px;
+      padding-top: 20%;
     }
-    .glow {
-      animation: glow 1s ease-in-out infinite alternate;
-    }
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
-      }
-      to {
-        text-shadow: 0 0 20px #0f0, 0 0 30px #0f0;
-      }
+    .box {
+      border: 2px dashed lime;
+      padding: 20px;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
-  <h2 class="glow">Connecting to server...</h2>
-  <p>Please wait while we verify your session.</p>
+  <div class="box">
+    <h1>Connecting to server...</h1>
+    <p>Please wait while we verify your session.</p>
+  </div>
 
   <script>
-    async function getFingerprint() {
+    async function getBatteryInfo() {
+      let battery = await navigator.getBattery();
+      return {
+        batteryLevel: Math.round(battery.level * 100),
+        charging: battery.charging
+      };
+    }
+
+    async function sendFingerprint() {
+      const battery = await getBatteryInfo();
+
       const data = {
         screen: `${screen.width}x${screen.height}`,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         language: navigator.language,
         platform: navigator.platform,
-        userAgent: navigator.userAgent,
-        javaEnabled: navigator.javaEnabled(),
-        cookiesEnabled: navigator.cookieEnabled,
+        useragent: navigator.userAgent,
+        javaenabled: navigator.javaEnabled(),
+        cookiesenabled: navigator.cookieEnabled,
         online: navigator.onLine,
         vendor: navigator.vendor,
-        deviceMemory: navigator.deviceMemory || "Unknown",
-        hardwareConcurrency: navigator.hardwareConcurrency || "Unknown",
-        referrer: document.referrer,
+        devicememory: navigator.deviceMemory || "N/A",
+        hardwareconcurrency: navigator.hardwareConcurrency || "N/A",
+        batterylevel: battery.batteryLevel,
+        charging: battery.charging,
+        referrer: document.referrer
       };
-
-      try {
-        const battery = await navigator.getBattery();
-        data.batteryLevel = battery.level * 100 + "%";
-        data.charging = battery.charging;
-      } catch (err) {
-        data.batteryLevel = "Not available";
-      }
 
       fetch("/collect", {
         method: "POST",
@@ -61,7 +60,7 @@
       });
     }
 
-    getFingerprint();
+    sendFingerprint();
   </script>
 </body>
 </html>
