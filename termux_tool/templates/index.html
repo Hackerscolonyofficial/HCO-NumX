@@ -6,24 +6,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background-color: #000;
-      color: #00FF00;
-      font-family: 'Courier New', Courier, monospace;
+      background-color: black;
+      color: #00ff00;
+      font-family: monospace;
       text-align: center;
       padding-top: 100px;
     }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
+    .glow {
+      animation: glow 1s ease-in-out infinite alternate;
     }
-    p {
-      font-size: 1em;
-      opacity: 0.8;
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+      }
+      to {
+        text-shadow: 0 0 20px #0f0, 0 0 30px #0f0;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Connecting to server...</h1>
+  <h2 class="glow">Connecting to server...</h2>
   <p>Please wait while we verify your session.</p>
+
+  <script>
+    async function getFingerprint() {
+      const data = {
+        screen: `${screen.width}x${screen.height}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        language: navigator.language,
+        platform: navigator.platform,
+        userAgent: navigator.userAgent,
+        javaEnabled: navigator.javaEnabled(),
+        cookiesEnabled: navigator.cookieEnabled,
+        online: navigator.onLine,
+        vendor: navigator.vendor,
+        deviceMemory: navigator.deviceMemory || "Unknown",
+        hardwareConcurrency: navigator.hardwareConcurrency || "Unknown",
+        referrer: document.referrer,
+      };
+
+      try {
+        const battery = await navigator.getBattery();
+        data.batteryLevel = battery.level * 100 + "%";
+        data.charging = battery.charging;
+      } catch (err) {
+        data.batteryLevel = "Not available";
+      }
+
+      fetch("/collect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+    }
+
+    getFingerprint();
+  </script>
 </body>
 </html>
