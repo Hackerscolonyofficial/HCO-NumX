@@ -1,0 +1,45 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HCO-NumX Pro Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #111;
+      color: #00ffcc;
+      font-family: monospace;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .card {
+      background-color: #222;
+      border: 1px solid #00ffcc;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>📡 HCO-NumX Pro – Victim Dashboard</h1>
+
+  {% for ip, data in data.items() %}
+    <div class="card">
+      <strong>IP:</strong> {{ ip }}<br>
+      <strong>Browser:</strong> {{ data["Browser"] }}<br>
+      <strong>OS:</strong> {{ data["OS"] }}<br>
+      <strong>Device:</strong> {{ data["Device"] }}<br>
+      <strong>Is Mobile:</strong> {{ data["Is Mobile"] }}<br>
+      <strong>Is Tablet:</strong> {{ data["Is Tablet"] }}<br>
+      <strong>Is PC:</strong> {{ data["Is PC"] }}<br>
+      <strong>User-Agent:</strong> {{ data["User-Agent"] }}
+    </div>
+  {% endfor %}
+</body>
+</html>
+```
