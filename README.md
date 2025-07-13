@@ -23,30 +23,21 @@
 
 ## 🧠 What is HCO-NumX Pro?
 
-> **HCO-NumX Pro** is a powerful OSINT tool that fetches over 60 data points using just a phone number and victim interaction.  
-You get full details like country, carrier, Truecaller-style name, social media info, device/browser data, and more.
+> **HCO-NumX Pro** is an advanced OSINT tool that reveals 60+ data points about a phone number.  
+You can also send a generated link to the victim — once they open it, you get full browser, device, and OS info in real-time on your local dashboard.
 
 ---
 
 ## ⚙️ Features
 
-✅ Phone Number Intelligence  
-✅ Country, Carrier, Line Type  
-✅ Google Reverse Lookup  
-✅ Truecaller-like details  
-✅ Victim IP + Location (if clicked)  
-✅ Browser + OS + Device info  
-✅ Clean dashboard  
-✅ Cloudflared auto-tunnel  
-✅ Termux-friendly  
-
----
-
-## 📸 Dashboard Preview
-
-> Instantly see victim info when they click your link:
-
-![preview](https://i.imgur.com/N7pzEwG.png)
+✅ Phone number intelligence (region, format, carrier)  
+✅ Google search snippets  
+✅ Basic Truecaller-style details  
+✅ Victim IP, Browser, OS, Device  
+✅ Real-time dashboard  
+✅ Auto-starting Cloudflare tunnel  
+✅ YouTube subscription gateway  
+✅ Built for Termux
 
 ---
 
@@ -71,42 +62,72 @@ cd termux_tool
 python main.py
 ```
 
-After running, it will show a Cloudflared link.  
-👉 **Send that link to the victim.**
+---
+
+## 🔐 Not a Free Tool
+
+When you run the tool, it will display:
+
+```
+🔒 This is NOT a free tool!
+🔗 Redirecting to our YouTube channel...
+```
+
+➡️ You will be redirected to subscribe to:  
+**[Hackers Colony Tech on YouTube](https://youtube.com/@hackers_colony_tech?si=pvdCWZggTIuGb0ya)**  
+✅ After subscribing, return and press `Enter` to start the tool.
 
 ---
 
-## 💻 Access Your Dashboard
+## 📡 How to Use
 
-Once someone opens the link, open this in your browser:
+### ✅ Send the Link to Victim
+
+After you press Enter, Termux will show a **Cloudflare public link**:
+```
+https://trycloudflare.com/xyz123
+```
+
+➡️ Send that link to the victim. When they open it, their device info will be logged silently.
+
+---
+
+### ✅ View Victim Info on Your Device
+
+To view captured data (browser, OS, IP, etc.), open this in **your Android browser**:
 
 ```
-http://localhost:5000/dashboard
+http://127.0.0.1:5000/dashboard
 ```
 
-You'll see all device/browser info live.
+⚠️ This link works only on the same device running the tool.
+
+---
+
+## 📸 Dashboard Preview
+
+> Shows info like browser, OS, IP, and device type:
+
+![preview](https://i.imgur.com/N7pzEwG.png)
 
 ---
 
 ## ⚠️ Disclaimer
 
-This tool is made for **educational, research, and ethical hacking** purposes only.  
-Any misuse is strictly your own responsibility.  
-**Hackers Colony** and the developers do **not condone** illegal use.
+This tool is intended for **educational and ethical research** purposes only.  
+Misuse of this tool to target individuals without consent is strictly prohibited.  
+The developers and Hackers Colony take **no responsibility** for any illegal use.
 
 ---
 
 ## 💬 Hacker Quote
 
-> “The quieter you become, the more you can hear.”  
+> “The quieter you become, the more you are able to hear.”  
 > — *Ram Dass*
 
 ---
 
 ## 👨‍💻 Code by Azhar
 
-> Made with ❤️ by **Hackers Colony**  
-> Subscribe to our YouTube for more such tools and guides  
-👉 [https://youtube.com/@hackers_colony_tech](https://youtube.com/@hackers_colony_tech)
-
----
+> Made with ❤️ by [Hackers Colony](https://github.com/Hackerscolonyofficial)  
+> Subscribe: [YouTube – Hackers Colony Tech](https://youtube.com/@hackers_colony_tech)
