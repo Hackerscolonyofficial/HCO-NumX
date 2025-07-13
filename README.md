@@ -66,6 +66,8 @@ python main.py
 
 ## 🔐 Not a Free Tool
 
+> 🟢 **`HCO-NumX Pro`**
+
 When you run the tool, it will display:
 
 ```
