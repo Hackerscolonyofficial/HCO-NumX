@@ -1,4 +1,3 @@
-```python
 import phonenumbers
 import requests
 from bs4 import BeautifulSoup
@@ -19,7 +18,6 @@ def lookup_number(number):
         info["Error"] = "Invalid phone number format"
 
     try:
-        # Google search for public info
         q = requests.get(f"https://www.google.com/search?q={number}", headers={"User-Agent": "Mozilla/5.0"})
         soup = BeautifulSoup(q.text, "html.parser")
         search_snippets = [i.text for i in soup.select("div.BNeawe.vvjwJb.AP7Wnd")][:3]
@@ -40,4 +38,3 @@ def get_device_info(user_agent_string):
         "Is Tablet": ua.is_tablet,
         "User-Agent": user_agent_string
     }
-```
