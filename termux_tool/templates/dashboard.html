@@ -1,45 +1,44 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HCO-NumX Pro Dashboard</title>
+  <title>HCO-NumX Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background-color: #111;
-      color: #00ffcc;
+      background-color: #000;
+      color: #00ff00;
       font-family: monospace;
       padding: 20px;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
+    h1, h2 {
+      color: #0f0;
     }
-    .card {
-      background-color: #222;
-      border: 1px solid #00ffcc;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 10px 0;
+    .victim-box {
+      border: 1px dashed #0f0;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style-type: square;
     }
   </style>
 </head>
 <body>
-  <h1>📡 HCO-NumX Pro – Victim Dashboard</h1>
+  <h1>📊 HCO-NumX Ultra - Live Dashboard</h1>
+  <p>Total victims captured: <b>{{ data | length }}</b></p>
 
-  {% for ip, data in data.items() %}
-    <div class="card">
-      <strong>IP:</strong> {{ ip }}<br>
-      <strong>Browser:</strong> {{ data["Browser"] }}<br>
-      <strong>OS:</strong> {{ data["OS"] }}<br>
-      <strong>Device:</strong> {{ data["Device"] }}<br>
-      <strong>Is Mobile:</strong> {{ data["Is Mobile"] }}<br>
-      <strong>Is Tablet:</strong> {{ data["Is Tablet"] }}<br>
-      <strong>Is PC:</strong> {{ data["Is PC"] }}<br>
-      <strong>User-Agent:</strong> {{ data["User-Agent"] }}
+  {% for ip, info in data.items() %}
+    <div class="victim-box">
+      <h2>📍 IP: {{ ip }}</h2>
+      <ul>
+        {% for key, value in info.items() %}
+          <li><b>{{ key.replace('_', ' ').capitalize() }}:</b> {{ value }}</li>
+        {% endfor %}
+      </ul>
     </div>
+  {% else %}
+    <p>No data captured yet.</p>
   {% endfor %}
 </body>
 </html>
-```
