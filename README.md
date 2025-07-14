@@ -51,7 +51,7 @@ pkg update && pkg upgrade -y
 pkg install git python -y
 
 # 3. Clone the tool
-git clone https://github.com/Hackerscolonyofficial/HCO-NumX-Pro
+git clone https://github.com/Hackerscolonyofficial/HCO-NumX.git
 cd HCO-NumX-Pro
 
 # 4. Install Python dependencies
